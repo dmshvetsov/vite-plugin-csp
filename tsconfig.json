@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "noEmit": true,
     "incremental": false,
     "target": "ESNext",
     "module": "NodeNext",
@@ -9,7 +8,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "strictNullChecks": true, /* viem */
-    "types": ["node"]
+    "types": []
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
