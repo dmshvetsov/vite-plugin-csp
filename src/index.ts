@@ -25,11 +25,13 @@ export interface CSPPluginOptions {
    * CSP directives to apply. Can be an object or a function that receives the Vite config.
    */
   directives?: CSPDirectives | ((config: ResolvedConfig) => CSPDirectives);
+
   /**
-   * Whether to include CSP in development mode
-   * @default false
+   * Whether to include CSP
+   * @default true
    */
-  includeDev?: boolean;
+  enabled?: boolean;
+
   /**
    * Additional CSP policy string to append
    */
@@ -72,7 +74,7 @@ function buildCSPHeader(directives: CSPDirectives): string {
 export function cspPlugin(options: CSPPluginOptions = {}): Plugin {
   const {
     directives = {},
-    includeDev = false,
+    enabled: includeCsp = true,
     policy: additionalPolicy,
   } = options;
 
@@ -95,7 +97,6 @@ export function cspPlugin(options: CSPPluginOptions = {}): Plugin {
     //   if (includeDev) {
     //     const cspPolicy = buildCSPHeader(resolvedDirectives) +
     //       (additionalPolicy ? `; ${additionalPolicy}` : '')
-
     //     server.middlewares.use((_req, res, next) => {
     //       res.setHeader('Content-Security-Policy', cspPolicy)
     //       next()
@@ -104,6 +105,10 @@ export function cspPlugin(options: CSPPluginOptions = {}): Plugin {
     // },
 
     transformIndexHtml(html) {
+      if (!includeCsp) {
+        return html;
+      }
+
       const cspPolicy =
         buildCSPHeader(resolvedDirectives) +
         (additionalPolicy ? `; ${additionalPolicy}` : "");
