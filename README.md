@@ -16,16 +16,16 @@ import { cspPlugin } from '@gacha/vite-csp-plugin'
 
 export default defineConfig({
   plugins: [
-    // ... other plugins
     cspPlugin({
       directives: {
         'default-src': "'self'",
+        // accept single string policy
         'script-src': "'self' 'unsafe-inline'",
         'style-src': "'self' 'unsafe-inline'",
-        'img-src': "'self' data: https:",
-        'connect-src': "'self' https://api.example.com"
-      },
-      includeDev: true // Include CSP headers in development
+        // or array of string that will be concatenated
+        'img-src': ["'self'", "data: https:"],
+        'connect-src': ["'self'", "https://api.example.com"]
+      }
     })
   ]
 })
@@ -40,9 +40,9 @@ An object containing CSP directives, or a function that returns such an object w
 ```typescript
 const defaultDirectives = {
   'default-src': "'self'",
-  'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-  'style-src': ["'self'", "'unsafe-inline'"],
-  'img-src': ["'self'", "data:", "https:"],
+  'script-src': ["'self'"],
+  'style-src': ["'self'"],
+  'img-src': ["'self'", "data:"],
   'font-src': "'self'",
   'connect-src': "'self'",
   'media-src': "'self'",
@@ -56,11 +56,11 @@ const defaultDirectives = {
 
 You can override any of these defaults by providing your own values. When using arrays, they will be joined with spaces.
 
-### `includeDev`
+### `enabled`
 
-Whether to include CSP headers in development mode. Defaults to `false`.
+Whether to enable CSP injection. Defaults to `true`.
 
-When enabled, the plugin will add CSP headers to the development server responses.
+When disabled, the plugin will not inject CSP meta tag.
 
 ### `policy`
 
@@ -68,82 +68,7 @@ An additional CSP policy string to append to the generated policy. Useful for co
 
 ## How it works
 
-The plugin:
-
-1. **Build time**: Injects a `<meta http-equiv="Content-Security-Policy">` tag into the HTML head
-2. **Development**: Optionally serves CSP headers via middleware when `includeDev` is enabled
-
-## Common CSP Directives
-
-- `'default-src'`: Fallback for other directives
-- `'script-src'`: Controls script execution
-- `'style-src'`: Controls stylesheet loading
-- `'img-src'`: Controls image loading
-- `'connect-src'`: Controls AJAX, WebSocket, etc.
-- `'font-src'`: Controls font loading
-- `'media-src'`: Controls media loading
-- `'object-src'`: Controls plugins and embeds
-- `'frame-src'`: Controls frame embedding
-
-## Examples
-
-### Basic configuration
-
-```typescript
-cspPlugin({
-  directives: {
-    'default-src': "'self'",
-    'script-src': "'self'",
-    'style-src': "'self'",
-    'img-src': "'self' data: https:",
-    'connect-src': "'self' https://api.example.com"
-  }
-})
-```
-
-### Strict CSP for production
-
-```typescript
-cspPlugin({
-  directives: {
-    'default-src': "'self'",
-    'script-src': "'self'",
-    'style-src': "'self'",
-    'img-src': "'self'",
-    'connect-src': "'self'",
-    'object-src': "'none'",
-    'base-uri': "'self'",
-    'form-action': "'self'"
-  },
-  includeDev: false
-})
-```
-
-### With additional policy
-
-```typescript
-cspPlugin({
-  directives: {
-    'default-src': "'self'",
-    'script-src': "'self'"
-  },
-  policy: "frame-ancestors 'none'; upgrade-insecure-requests"
-})
-```
-
-### Using arrays for directive values
-
-```typescript
-cspPlugin({
-  directives: {
-    'default-src': "'self'",
-    'script-src': ['self', 'unsafe-inline'],
-    'style-src': ['self', 'unsafe-inline'],
-    'img-src': ['self', 'data:', 'https:'],
-    'connect-src': ['self', 'https://api.example.com', 'https://cdn.example.com']
-  }
-})
-```
+The plugin injects a `<meta http-equiv="Content-Security-Policy">` tag into the HTML head at build time.
 
 ### Using a function for dynamic configuration with access to Vite config
 

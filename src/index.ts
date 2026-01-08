@@ -15,9 +15,6 @@ export interface CSPDirectives {
   "worker-src"?: CSPDirectiveValue;
   "manifest-src"?: CSPDirectiveValue;
   "form-action"?: CSPDirectiveValue;
-  "upgrade-insecure-requests"?: boolean;
-  "block-all-mixed-content"?: boolean;
-  [key: string]: CSPDirectiveValue | boolean | undefined;
 }
 
 export interface CSPPluginOptions {
