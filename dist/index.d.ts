@@ -29,5 +29,4 @@ export interface CSPPluginOptions {
      */
     policy?: string;
 }
-declare function cspPlugin(options?: CSPPluginOptions): Plugin;
-export default cspPlugin;
+export default function cspPlugin(options?: CSPPluginOptions): Plugin;

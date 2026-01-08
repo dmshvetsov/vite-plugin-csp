@@ -68,7 +68,7 @@ function buildCSPHeader(directives: CSPDirectives): string {
   return policies.join("; ");
 }
 
-function cspPlugin(options: CSPPluginOptions = {}): Plugin {
+export default function cspPlugin(options: CSPPluginOptions = {}): Plugin {
   const {
     directives = {},
     enabled: includeCsp = true,
@@ -117,5 +117,3 @@ function cspPlugin(options: CSPPluginOptions = {}): Plugin {
     },
   };
 }
-
-export default cspPlugin;

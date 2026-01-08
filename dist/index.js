@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = cspPlugin;
 const defaultDirectives = {
     "default-src": "'self'",
     "script-src": ["'self'"],
@@ -67,4 +68,3 @@ function cspPlugin(options = {}) {
         },
     };
 }
-exports.default = cspPlugin;
