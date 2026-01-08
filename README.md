@@ -1,5 +1,7 @@
 # Vite CSP Plugin
 
+> WARNING: this package is not stable and it's API will change with every minor version upgrade
+
 A Vite plugin for managing Content Security Policy (CSP) headers and meta tags in your application.
 
 ## Installation
