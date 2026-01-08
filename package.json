@@ -1,10 +1,14 @@
 {
-  "name": "vite-plugin-csp",
+  "name": "@magicdima/vite-plugin-csp",
   "version": "0.1.0",
   "description": "",
   "main": "src/index.ts",
   "scripts": {
     "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vite": "^5.2.0"
   },
   "keywords": [],
   "author": "",
