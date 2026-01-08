@@ -1,9 +1,13 @@
 {
   "name": "@magicdima/vite-plugin-csp",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc"
   },
