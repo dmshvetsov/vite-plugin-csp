@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = cspPlugin;
+exports.contentSecurityPolicy = contentSecurityPolicy;
 const defaultDirectives = {
     "default-src": "'self'",
     "script-src": ["'self'"],
@@ -33,7 +33,7 @@ function buildCSPHeader(directives) {
     }
     return policies.join("; ");
 }
-function cspPlugin(options = {}) {
+function contentSecurityPolicy(options = {}) {
     const { directives = {}, enabled: includeCsp = true, policy: additionalPolicy, } = options;
     let resolvedDirectives;
     return {
