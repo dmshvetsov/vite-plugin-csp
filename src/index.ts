@@ -1,6 +1,6 @@
 import type { Plugin, ResolvedConfig } from "vite";
 
-export type CSPDirectiveValue = string | string[];
+export type CSPDirectiveValue = string | Array<string | undefined | null>;
 
 /**
  * Map of CSP directive names to their allowed sources.
@@ -62,11 +62,6 @@ export interface CSPPluginOptions {
    * @default true
    */
   enabled?: boolean;
-
-  /**
-   * Additional CSP policy string to append
-   */
-  policy?: string;
 }
 
 const defaultDirectives: CSPDirectives = {
@@ -108,7 +103,6 @@ export function contentSecurityPolicy(options: CSPPluginOptions = {}): Plugin {
   const {
     directives = {},
     enabled: includeCsp = true,
-    policy: additionalPolicy,
   } = options;
 
   let resolvedDirectives: CSPDirectives;

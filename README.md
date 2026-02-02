@@ -64,10 +64,6 @@ Whether to enable CSP injection. Defaults to `true`.
 
 When disabled, the plugin will not inject CSP meta tag.
 
-### `policy`
-
-An additional CSP policy string to append to the generated policy. Useful for complex policies that don't fit the directive object structure.
-
 ## How it works
 
 The plugin injects a `<meta http-equiv="Content-Security-Policy">` tag into the HTML head at build time.
