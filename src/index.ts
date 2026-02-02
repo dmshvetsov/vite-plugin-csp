@@ -81,18 +81,20 @@ const defaultDirectives: CSPDirectives = {
   "form-action": "'self'",
 };
 
+function isString(val: unknown): val is String  {
+  return typeof val === 'string';
+}
+
 function buildCSPHeader(directives: CSPDirectives): string {
   const policies: string[] = [];
 
-  for (const [directive, value] of Object.entries(directives)) {
-    if (value === true) {
-      policies.push(directive);
-    } else if (value === false) {
-      // Skip false values
-    } else if (typeof value === "string") {
-      policies.push(`${directive} ${value}`);
+  for (const [directiveName, value] of Object.entries(directives)) {
+    if (isString(value)) {
+      policies.push(`${directiveName} ${value}`);
     } else if (Array.isArray(value)) {
-      policies.push(`${directive} ${value.join(" ")}`);
+      policies.push(`${directiveName} ${value.filter(isString).join(" ")}`);
+    } else {
+      console.debug(`[vite-csp-plugin] ${directiveName} ignored as it contains invalid value`);
     }
   }
 
@@ -136,9 +138,7 @@ export function contentSecurityPolicy(options: CSPPluginOptions = {}): Plugin {
         return html;
       }
 
-      const cspPolicy =
-        buildCSPHeader(resolvedDirectives) +
-        (additionalPolicy ? `; ${additionalPolicy}` : "");
+      const cspPolicy = buildCSPHeader(resolvedDirectives);
 
       const cspMetaTag = `<meta http-equiv="Content-Security-Policy" content="${cspPolicy}" />`;
 
