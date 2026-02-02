@@ -3,18 +3,22 @@ import type { Plugin, ResolvedConfig } from "vite";
 export type CSPDirectiveValue = string | string[];
 
 export interface CSPDirectives {
-  "default-src"?: CSPDirectiveValue;
-  "script-src"?: CSPDirectiveValue;
-  "style-src"?: CSPDirectiveValue;
-  "img-src"?: CSPDirectiveValue;
-  "font-src"?: CSPDirectiveValue;
+  "base-uri"?: CSPDirectiveValue;
+  /** child-src is a fallback for old browsers, frame-src and worker-src are modern replacements for child-src */
+  "child-src"?: CSPDirectiveValue;
   "connect-src"?: CSPDirectiveValue;
+  "default-src"?: CSPDirectiveValue;
+  "font-src"?: CSPDirectiveValue;
+  "form-action"?: CSPDirectiveValue;
+  "frame-ancestors"?: CSPDirectiveValue;
+  "frame-src"?: CSPDirectiveValue;
+  "img-src"?: CSPDirectiveValue;
+  "manifest-src"?: CSPDirectiveValue;
   "media-src"?: CSPDirectiveValue;
   "object-src"?: CSPDirectiveValue;
-  "frame-src"?: CSPDirectiveValue;
+  "script-src"?: CSPDirectiveValue;
+  "style-src"?: CSPDirectiveValue;
   "worker-src"?: CSPDirectiveValue;
-  "manifest-src"?: CSPDirectiveValue;
-  "form-action"?: CSPDirectiveValue;
 }
 
 export interface CSPPluginOptions {
@@ -36,6 +40,7 @@ export interface CSPPluginOptions {
 }
 
 const defaultDirectives: CSPDirectives = {
+  "base-uri": "'self'",
   "default-src": "'self'",
   "script-src": ["'self'"],
   "style-src": ["'self'"],
@@ -44,6 +49,7 @@ const defaultDirectives: CSPDirectives = {
   "connect-src": "'self'",
   "media-src": "'self'",
   "object-src": "'none'",
+  "child-src": "'none'",
   "frame-src": "'none'",
   "worker-src": "'self'",
   "manifest-src": "'self'",
